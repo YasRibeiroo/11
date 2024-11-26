@@ -1,9 +1,9 @@
-# Documentação Técnica do Projeto Aluno Online
+# **Documentação Técnica do Projeto Aluno Online**
 
-## 1. **Descrição Geral**
-O **Aluno Online** é um sistema backend desenvolvido em **Java** usando o framework **Spring Boot**. Ele gerencia informações relacionadas a alunos, disciplinas, professores e matrículas em um ambiente acadêmico. A documentação fornece detalhes técnicos do código, arquitetura e funcionalidades.
+## 1. **Visão Geral do Sistema**
+O **Aluno Online** é uma aplicação backend criada para gerenciar informações de alunos, professores, disciplinas e matrículas em um sistema acadêmico. Utilizamos o framework **Spring Boot** para desenvolver o sistema em **Java**, e o banco de dados utilizado é o **PostgreSQL**. O sistema oferece uma interface de API RESTful que pode ser consumida por outras aplicações ou sistemas externos, com a documentação gerada automaticamente via **Swagger**.
 
-- **Linguagem**: Java (versão 17)
+- **Linguagem de Programação**: Java (versão 17)
 - **Framework**: Spring Boot
 - **Banco de Dados**: PostgreSQL
 - **Gerenciador de Dependências**: Maven
@@ -11,149 +11,121 @@ O **Aluno Online** é um sistema backend desenvolvido em **Java** usando o frame
 
 ---
 
-## 2. **Arquitetura do Projeto**
-### Estrutura de Pastas
+## 2. **Estrutura do Projeto**
+A estrutura do projeto foi organizada de forma a separar claramente as responsabilidades de cada parte do sistema:
+
+### Diretórios principais:
 - **`src/main/java/br/com/alunoonline/api/`**
-  - **`controller/`**: Controladores que gerenciam os endpoints da API.
-  - **`service/`**: Contém a lógica de negócios.
-  - **`model/`**: Define as entidades que representam as tabelas do banco de dados.
-  - **`repository/`**: Interfaces responsáveis pela comunicação com o banco de dados.
-  - **`config/`**: Configurações adicionais da aplicação, como o Swagger.
+  - **`controller/`**: Aqui ficam as classes responsáveis por definir os endpoints da API.
+  - **`service/`**: Contém a lógica de negócio do sistema.
+  - **`model/`**: Define as entidades (tabelas) do banco de dados.
+  - **`repository/`**: As interfaces que comunicam o sistema com o banco de dados.
+  - **`config/`**: Configurações extras, como o Swagger para a documentação da API.
+  
 - **`src/main/resources/`**
-  - Arquivo `application.properties`: Configurações como URL do banco, credenciais e outras variáveis de ambiente.
+  - **`application.properties`**: Aqui ficam as configurações de ambiente, como as credenciais e URL do banco de dados.
 
-### Principais Componentes
-1. **Controller**: Define os endpoints e gerencia as requisições HTTP.
-   - **Propósito**: Expõe as funcionalidades do sistema para interações externas, como criação, leitura, atualização e exclusão de recursos.
-   - **Exemplo**: `AlunoController.java` gerencia operações CRUD para a entidade `Aluno`.
-   
-2. **Service**: Contém a lógica de negócios da aplicação.
-   - **Propósito**: Implementa regras de negócio e interage com repositórios.
-   - **Exemplo**: `AlunoService.java` é responsável por validar dados e processar as operações de CRUD.
+### Componentes principais do sistema:
+1. **Controller**: Responsável por receber as requisições HTTP (como GET, POST, PUT, DELETE) e chamar os serviços apropriados.
+   - Exemplo: `AlunoController.java` gerencia todas as operações relacionadas aos alunos, como adicionar, editar ou remover um aluno.
 
-3. **Model**: Representa as entidades do banco de dados.
-   - **Propósito**: Mapeia os dados de objetos Java para tabelas do banco de dados, com a ajuda do JPA (Java Persistence API).
-   - **Exemplo**: `Aluno.java` contém atributos como `id`, `nome`, `cpf`, e `email`.
+2. **Service**: A lógica de negócio do sistema fica aqui. 
+   - Exemplo: `AlunoService.java` contém a validação dos dados dos alunos e chama o repositório para fazer as operações no banco.
 
-4. **Repository**: Define as interfaces de persistência de dados.
-   - **Propósito**: Facilita a comunicação com o banco de dados, proporcionando métodos para salvar, atualizar, deletar e buscar entidades.
-   - **Exemplo**: `AlunoRepository.java` é uma interface que estende `JpaRepository`, fornecendo funcionalidades para gerenciar os alunos no banco.
+3. **Model**: Representa as entidades do banco de dados, como tabelas do PostgreSQL.
+   - Exemplo: `Aluno.java` é a entidade que mapeia a tabela de alunos no banco, com campos como `id`, `nome`, `cpf` e `email`.
+
+4. **Repository**: A comunicação com o banco de dados é feita pelas interfaces de repositório.
+   - Exemplo: `AlunoRepository.java` oferece métodos prontos para interagir com a tabela de alunos, como salvar, buscar ou excluir um aluno.
 
 ---
 
-## 3. **Funcionalidades**
-### Endpoints Expostos (`AlunoController`)
-- **POST `/alunos`**: Cria um novo aluno.
-  - **Função**: Recebe os dados de um aluno e o cadastra no sistema.
-- **GET `/alunos`**: Retorna uma lista de todos os alunos.
-  - **Função**: Exibe todos os alunos cadastrados.
-- **GET `/alunos/{id}`**: Retorna um aluno específico, dado seu ID.
-  - **Função**: Busca as informações de um aluno a partir do seu identificador único.
-- **PUT `/alunos/{id}`**: Atualiza as informações de um aluno.
-  - **Função**: Modifica os dados de um aluno existente.
-- **DELETE `/alunos/{id}`**: Deleta um aluno do sistema.
-  - **Função**: Remove um aluno a partir do seu ID.
+## 3. **Funcionalidades da API**
+A API expõe alguns endpoints que permitem a interação com os dados dos alunos:
 
-### Swagger
-A documentação da API é gerada automaticamente via Swagger, e pode ser acessada no seguinte link quando a aplicação estiver em execução:
+- **POST `/alunos`**: Cria um novo aluno no sistema.
+- **GET `/alunos`**: Retorna uma lista com todos os alunos cadastrados.
+- **GET `/alunos/{id}`**: Retorna os detalhes de um aluno específico.
+- **PUT `/alunos/{id}`**: Atualiza os dados de um aluno existente.
+- **DELETE `/alunos/{id}`**: Exclui um aluno do sistema.
+
+### Documentação da API com Swagger
+A documentação da API é gerada automaticamente usando o Swagger, uma ferramenta muito útil para quem precisa ver e testar a API de forma interativa. Quando a aplicação estiver rodando, basta acessar:
 `http://localhost:8080/swagger-ui/index.html`
 
 ---
 
-## 4. **Anotações Utilizadas**
-1. **Spring Boot**:
-   - `@SpringBootApplication`: Marca a classe principal da aplicação, habilitando a configuração automática e o autoload de componentes.
-   - `@RestController`: Marca uma classe como um controlador de requisições REST, simplificando a criação de APIs.
-   - `@RequestMapping`: Define o caminho base para as requisições.
-   - `@Service`: Identifica uma classe como um componente de serviço que contém a lógica de negócios.
-   - `@Repository`: Define uma interface como responsável por interagir com o banco de dados.
-   
-2. **JPA**:
-   - `@Entity`: Marca uma classe como uma entidade JPA que será mapeada para uma tabela do banco de dados.
-   - `@Id`, `@GeneratedValue`: Define a chave primária da entidade e a estratégia de geração automática do valor (normalmente autoincremento).
+## 4. **Anotações mais Importantes**
+Aqui estão algumas anotações usadas no código e o que elas fazem:
 
-3. **Lombok**:
-   - `@Data`: Gera automaticamente métodos `getter`, `setter`, `toString`, `equals`, `hashCode`, e `constructor` para a classe.
-   - `@NoArgsConstructor`, `@AllArgsConstructor`: Cria os construtores padrão e com todos os parâmetros.
+- **Spring Boot**:
+   - `@SpringBootApplication`: Marca a classe principal da aplicação, iniciando o Spring Boot e habilitando suas configurações automáticas.
+   - `@RestController`: Marca a classe como responsável por tratar requisições REST, ou seja, ela recebe e responde às requisições HTTP.
+   - `@RequestMapping`: Define o caminho de acesso para as requisições. Exemplo: `/alunos`.
+   - `@Service`: Indica que a classe contém a lógica de negócios.
+   - `@Repository`: Marca a interface que interage diretamente com o banco de dados.
 
----
+- **JPA**:
+   - `@Entity`: Indica que a classe é uma entidade que será mapeada para uma tabela do banco de dados.
+   - `@Id`, `@GeneratedValue`: Define a chave primária da entidade e como o valor será gerado automaticamente.
 
-## 5. **Exemplo de Fluxo**
-### Cadastro de um Aluno
-1. O cliente realiza um **POST** para `/alunos` com os dados do aluno no corpo da requisição.
-2. O **`AlunoController`** chama o método `criarAluno` do **`AlunoService`**.
-3. O **`AlunoService`** valida os dados e usa o **`AlunoRepository`** para salvar o aluno no banco de dados.
-4. A resposta HTTP é retornada com o status `201 Created`, confirmando que o aluno foi cadastrado.
+- **Lombok** (para facilitar o código):
+   - `@Data`: Gera automaticamente os métodos getters, setters, `toString()`, `equals()`, `hashCode()`, e o construtor.
+   - `@NoArgsConstructor`, `@AllArgsConstructor`: Cria automaticamente construtores com e sem parâmetros.
 
 ---
 
-## 6. **Dependências**
-- **Spring Boot**: Framework principal que facilita a construção da aplicação.
-- **PostgreSQL**: Banco de dados relacional utilizado para persistência de dados.
-- **Lombok**: Biblioteca que reduz a quantidade de código boilerplate, como getters e setters.
-- **Spring Data JPA**: Facilita a comunicação com o banco de dados, eliminando a necessidade de implementar consultas SQL manualmente.
-- **Swagger**: Ferramenta para gerar automaticamente a documentação da API REST.
+## 5. **Fluxo de Cadastro de Aluno**
+Aqui está um exemplo de como o sistema funciona quando você adiciona um novo aluno:
+
+1. O cliente faz um **POST** para `/alunos` enviando os dados de um aluno.
+2. O **AlunoController** chama o método `criarAluno()` do **AlunoService**.
+3. O **AlunoService** valida os dados e chama o **AlunoRepository** para salvar o aluno no banco de dados.
+4. O sistema responde com um status `201 Created`, indicando que o aluno foi criado com sucesso.
+
+---
+
+## 6. **Principais Dependências**
+Essas são as principais bibliotecas e frameworks que usamos:
+
+- **Spring Boot**: Facilita o desenvolvimento de aplicações Java, oferecendo uma série de funcionalidades prontas.
+- **PostgreSQL**: Banco de dados relacional robusto, usado para armazenar as informações dos alunos.
+- **Lombok**: Ajuda a reduzir o código repetitivo, como getters e setters.
+- **Spring Data JPA**: Facilita a comunicação com o banco de dados, sem a necessidade de escrever SQL manualmente.
+- **Swagger**: Gera automaticamente a documentação da API e a torna interativa, para facilitar os testes.
 
 ---
 
 ## 7. **Descrição das Classes e Interfaces**
 
 ### `AlunoOnlineApplication.java`
-- **Propósito**: Classe principal do Spring Boot. Ela inicia a aplicação e habilita a configuração automática do Spring. Contém o método `main`, que é o ponto de entrada da aplicação.
-  - **Funcionamento**: O método `main` usa `SpringApplication.run(AlunoOnlineApplication.class, args)` para iniciar a aplicação.
+- **Função**: Classe principal que inicia a aplicação Spring Boot. O método `main` é o ponto de entrada do sistema e chama `SpringApplication.run()` para iniciar a aplicação.
 
 ### `AlunoController.java`
-- **Propósito**: Controlador REST que gerencia as operações HTTP para a entidade `Aluno`.
-  - **Funcionamento**: Usa anotações como `@RestController` para definir o controlador e `@RequestMapping` ou `@GetMapping`, `@PostMapping`, etc., para mapear as requisições HTTP aos métodos da classe.
-  - **Exemplo**: O método `criarAluno()` é mapeado para o endpoint `POST /alunos`, que chama o serviço `AlunoService` para criar um novo aluno.
+- **Função**: Responsável por definir os endpoints da API, como `POST`, `GET`, `PUT` e `DELETE`. Exemplo: o método `criarAluno()` lida com as requisições para adicionar um novo aluno.
 
 ### `AlunoService.java`
-- **Propósito**: Contém a lógica de negócios relacionada a alunos.
-  - **Funcionamento**: A classe recebe chamadas dos controladores e executa a lógica de criação, atualização ou exclusão de alunos. Interage diretamente com os repositórios para manipulação dos dados.
-  - **Exemplo**: O método `criarAluno()` recebe os dados de entrada, valida-os, e usa o `AlunoRepository` para salvar o aluno no banco de dados.
-
+- **Função**: A lógica de negócio está aqui. Ele recebe as requisições dos controladores, valida as informações e interage com o banco de dados através do repositório.
+  
 ### `AlunoRepository.java`
-- **Propósito**: Interface de persistência de dados, responsável por interagir com o banco de dados.
-  - **Funcionamento**: Herda de `JpaRepository`, que fornece métodos prontos como `save()`, `findById()`, e `deleteById()`, simplificando o acesso aos dados sem a necessidade de implementação manual.
-  - **Exemplo**: O método `findById()` retorna um aluno específico, dado seu ID.
+- **Função**: Interface que facilita o acesso ao banco de dados. Ela estende `JpaRepository` e fornece métodos prontos, como `findById()`, `save()`, e `delete()`.
 
 ### `Aluno.java`
-- **Propósito**: Classe modelo que representa a entidade `Aluno`.
-  - **Funcionamento**: Define os atributos do aluno e é anotada com `@Entity` para que o JPA a mapeie como uma tabela no banco de dados.
-  - **Exemplo**: A classe contém campos como `id`, `nome`, `cpf`, e `email`, além de métodos `getter` e `setter` gerados automaticamente pelo Lombok.
-
-### `SwaggerConfig.java`
-- **Propósito**: Configuração do Swagger para gerar automaticamente a documentação da API.
-  - **Funcionamento**: A classe configura o Swagger para que ele consiga gerar a documentação dos endpoints REST expostos no projeto, como `AlunoController`.
-  - **Exemplo**: Usando a anotação `@OpenAPIDefinition`, a configuração define a versão da API e outros detalhes importantes para a documentação.
+- **Função**: A entidade que representa o aluno no banco de dados. Ela contém atributos como `id`, `nome`, `cpf`, e `email`, e é mapeada para a tabela de alunos no banco com a anotação `@Entity`.
 
 ---
 
-## 8. **Interação com o Banco de Dados e o Usuário**
+## 8. **Como a Aplicação Interage com o Banco de Dados**
 
 ### Interação com o Banco de Dados
-A comunicação entre a aplicação e o banco de dados é gerida pela **Spring Data JPA**, que utiliza a **JPA (Java Persistence API)** para mapear as classes Java para tabelas no banco de dados. O fluxo de interação pode ser descrito da seguinte maneira:
+A comunicação com o banco é feita via **Spring Data JPA**, que usa a **JPA (Java Persistence API)** para mapear as entidades Java para as tabelas no banco de dados. O processo é simples:
 
-1. **Modelo de Dados (Entidades)**: As classes como `Aluno` são anotadas com `@Entity` e mapeadas para tabelas no banco de dados. A JPA gerencia as operações de persistência dessas entidades.
-   - **Exemplo**: A classe `Aluno.java` contém o mapeamento dos dados do aluno, como `id`, `nome`, `email`, e `cpf`.
-
-2. **Repositórios**: As interfaces como `AlunoRepository.java` estendem `JpaRepository`, o que garante que a aplicação possa realizar operações de CRUD no banco de dados automaticamente, sem a necessidade de escrever consultas SQL complexas.
-   - **Exemplo**: O repositório `AlunoRepository` define métodos como `findById()`, `save()`, e `deleteById()`, que são usados no serviço para manipular dados no banco.
-
-3. **Serviços**: O serviço como `AlunoService` utiliza os repositórios para realizar operações no banco de dados. Ele recebe os dados dos controladores, valida e, em seguida, interage com os repositórios para salvar, atualizar ou excluir registros.
-   - **Exemplo**: No método `criarAluno()`, o serviço valida os dados recebidos e os passa para o repositório para serem salvos no banco de dados.
+1. **Modelo de Dados (Entidades)**: Classes como `Aluno` são anotadas com `@Entity` e o Spring Boot cuida de mapear essas classes para as tabelas do banco de dados.
+2. **Repositórios**: Interfaces como `AlunoRepository` estendem `JpaRepository`, o que permite ao sistema realizar operações de CRUD automaticamente.
+3. **Serviços**: O serviço como `AlunoService` usa os repositórios para persistir os dados. Ele recebe as entradas, valida as informações e chama o repositório para salvar ou modificar os dados no banco.
 
 ### Interação com o Usuário
-A interação com o usuário ocorre através da **API REST**, exposta pelos controladores. O processo é o seguinte:
-
-1. **Requisição HTTP**: O cliente (usuário ou sistema externo) faz uma requisição HTTP para um endpoint da API. Exemplo: uma requisição `POST` para `/alunos` com os dados do aluno no corpo da requisição.
-
-2. **Controlador**: O controlador, como `AlunoController`, recebe a requisição e direciona a execução para o serviço correspondente. Ele é responsável por interpretar a entrada do usuário e gerar a resposta apropriada.
-   - **Exemplo**: O método `criarAluno()` do controlador mapeia a requisição `POST` para o serviço `AlunoService`, que realiza a lógica de criação.
-
-3. **Resposta HTTP**: Após a execução da lógica no serviço, uma resposta HTTP é retornada ao cliente, com um código de status e, se necessário, dados adicionais.
-   - **Exemplo**: Após a criação do aluno, o servidor retorna uma resposta `201 Created` junto com os detalhes do aluno recém-criado.
-
----
-
-
+1. O usuário faz uma requisição HTTP para um endpoint da API.
+2. O controlador (como `AlunoController`) recebe a requisição e chama a lógica no serviço.
+3. O serviço interage com o banco de dados para salvar, buscar ou excluir dados.
+4. Uma resposta HTTP é devolvida ao usuário com o resultado da operação.
